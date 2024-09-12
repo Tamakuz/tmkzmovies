@@ -3,6 +3,7 @@ import { connectToDatabase } from "../db/connection.js";
 
 export const getMovies = async (req, res) => {
   try {
+    await connectToDatabase();
     const { page = '1', limit = '10' } = req.query;
     const sortCriteria = {};
     const movies = await MovieModel.find()
@@ -33,6 +34,7 @@ export const getMovies = async (req, res) => {
       message: 'Movies fetched successfully'
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch movies',
@@ -43,6 +45,7 @@ export const getMovies = async (req, res) => {
 
 export const getMovieById = async (req, res) => {
   try {
+    await connectToDatabase();
     const { id } = req.params;
     const movie = await MovieModel.findById(id).select('-__v');
 
@@ -73,6 +76,7 @@ export const getMovieById = async (req, res) => {
 
 export const getMovieByTitle = async (req, res) => {
   try {
+    await connectToDatabase();
     const { title } = req.params;
     const movie = await MovieModel.findOne({ title }).select('-__v');
 
@@ -91,6 +95,7 @@ export const getMovieByTitle = async (req, res) => {
       message: 'Movie fetched successfully',
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch movie',
@@ -101,6 +106,7 @@ export const getMovieByTitle = async (req, res) => {
 
 export const getMovieByGenres = async (req, res) => {
   try {
+    await connectToDatabase();
     const { genres } = req.params;
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
@@ -131,6 +137,7 @@ export const getMovieByGenres = async (req, res) => {
       message: 'Movies fetched successfully',
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch movies',
@@ -141,6 +148,7 @@ export const getMovieByGenres = async (req, res) => {
 
 export const getMovieByPopularity = async (req, res) => {
   try {
+    await connectToDatabase();
     const { page = '1', limit = '10' } = req.query;
 
     // Ensure page and limit are valid numbers
@@ -184,6 +192,7 @@ export const getMovieByPopularity = async (req, res) => {
       message: 'Movies fetched successfully',
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch movies',
@@ -194,6 +203,7 @@ export const getMovieByPopularity = async (req, res) => {
 
 export const getMovieByYear = async (req, res) => {
   try {
+    await connectToDatabase();
     const { year } = req.params;
     const { page = '1', limit = '10' } = req.query;
     const pageNumber = parseInt(page, 10);
@@ -234,6 +244,7 @@ export const getMovieByYear = async (req, res) => {
       message: 'Movies fetched successfully',
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch movies',
